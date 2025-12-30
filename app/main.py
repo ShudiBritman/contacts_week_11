@@ -19,29 +19,21 @@ app = FastAPI()
 
 
 @app.get("/contacts/")
-def get_contacts():
+async def get_contacts():
     contacts = get_all_contacts()
     return contacts
 
 
 @app.post("/contacts/")
-def add_contact(contact: ContactCreate):
-    new_id = create_contact(
-        contact.first_name,
-        contact.last_name,
-        contact.phone_number
-    )
+async def add_contact(contact: ContactCreate):
+    dict_contact = contact.model_dump()
+    new_id = create_contact(dict_contact)
     return {"message": "Contact created successfully", "id": new_id}
 
 
 @app.put("/contacts/{contact_id}")
-def update_contact_api(contact_id: int, data: ContactUpdate):
-    updated = update_contact(
-        contact_id,
-        data.first_name,
-        data.last_name,
-        data.phone_number
-    )
+async def update_contact_api(contact_id: int, data: ContactUpdate):
+    updated = update_contact(contact_id, data)
 
     if not updated:
         raise HTTPException(status_code=404, detail="Contact not found")
@@ -50,7 +42,7 @@ def update_contact_api(contact_id: int, data: ContactUpdate):
 
 
 @app.delete("/contacts/{contact_id}")
-def delete_contact_api(contact_id: int):
+async def delete_contact_api(contact_id: int):
     success = delete_contact(contact_id)
     if not success:
         raise HTTPException(status_code=404, detail="Contact not found")
@@ -58,5 +50,5 @@ def delete_contact_api(contact_id: int):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
 
