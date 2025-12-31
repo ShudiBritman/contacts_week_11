@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: api
-    image: sdbr1234/contacts-api:v1
+    image: sdbr1234/contacts-api:latest
     imagePullPolicy: Always
     ports:
     - containerPort: 8000
