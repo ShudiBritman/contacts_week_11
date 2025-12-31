@@ -31,10 +31,10 @@ def update_contact(contcat_id: str, contact_data: dict):
     doc = {}
     for k, v in contact_data.items():
         if v:
-            doc.update(k: v)
+            doc.update({k: v})
     result = col_contacts.update_one(
         {"id": contcat_id},
-        {"$set":"h"}
+        {"$set":doc}
     )
     return
 
