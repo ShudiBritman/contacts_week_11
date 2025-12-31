@@ -29,9 +29,9 @@ def create_contact(contact_data):
 def update_contact(contcat_id: str, contact_data: dict):
     col_contacts = get_collection()
     doc = {}
-    for v in contact_data.items():
+    for k, v in contact_data.items():
         if v:
-            doc.update(v)
+            doc.update(k: v)
     result = col_contacts.update_one(
         {"id": contcat_id},
         {"$set":"h"}
