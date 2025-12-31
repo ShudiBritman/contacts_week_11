@@ -28,13 +28,19 @@ async def get_contacts():
 async def add_contact(contact: ContactCreate):
     dict_contact = contact.model_dump()
     new_id = create_contact(dict_contact)
+    if not new_id:
+        raise HTTPException(status_code=401, detail="Phone number already exist")
     return {"message": "Contact created successfully", "id": new_id}
 
 
 @app.put("/contacts/{contact_id}")
-async def update_contact_api(contact_id: int, data: ContactUpdate):
-    updated = update_contact(contact_id, data)
+async def update_contact_api(contact_id, data: ContactUpdate):
+    dict_contact = data.model_dump()
+    updated = update_contact(contact_id, dict_contact)
 
+    if updated == "not_uniqe":
+        raise HTTPException(status_code=401, detail="Phone number already exist")
+    
     if not updated:
         raise HTTPException(status_code=404, detail="Contact not found")
 
