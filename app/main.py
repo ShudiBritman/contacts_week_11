@@ -48,7 +48,7 @@ async def update_contact_api(contact_id, data: ContactUpdate):
 
 
 @app.delete("/contacts/{contact_id}")
-async def delete_contact_api(contact_id: int):
+async def delete_contact_api(contact_id: str):
     success = delete_contact(contact_id)
     if not success:
         raise HTTPException(status_code=404, detail="Contact not found")
@@ -56,5 +56,5 @@ async def delete_contact_api(contact_id: int):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
